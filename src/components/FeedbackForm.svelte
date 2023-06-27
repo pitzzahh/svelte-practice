@@ -1,6 +1,6 @@
 <script lang="ts">
+  import { FeedbackStore } from "../stores";
   import { v4 as uuidv4 } from "uuid";
-  import { createEventDispatcher } from "svelte";
   import { afterUpdate } from "svelte";
   import Card from "./Card.svelte";
   import RatingButton from "./RatingButton.svelte";
@@ -13,8 +13,6 @@
   let inputLength: number = 0
   const minInput: number = 10
 
-  const dispatch = createEventDispatcher();
-
   afterUpdate(() => {
     inputLength = text.trim().length;
   });
@@ -24,7 +22,7 @@
       errMsg =
         inputLength == 0
           ? null
-          : `Text must be at least ${minInput} characters`;
+          : `Text must be at least ${minInput} characters`
       btnDisabled = true
     } else {
       errMsg = null;
@@ -35,10 +33,12 @@
   const handleSelect = (e: CustomEvent<any>) => (rating = e.detail);
   const handleSubmit = () => {
     if (text.trim().length >= minInput - 1) {
-      dispatch("add-feedback", { id: uuidv4(), text, rating: +rating })
+      FeedbackStore.update((currentFeedbacks) => [...currentFeedbacks, { id: uuidv4(), text, rating: +rating }])
       text = ''
+      btnDisabled = true
     }
   };
+
 </script>
 
 <Card>
