@@ -1,6 +1,6 @@
-<script>
+<script lang="ts">
   import FeedBackItem from "./FeedBackItem.svelte";
-  export let feedbacks = [];
+  export let feedbacks: Array<any> = [];
 </script>
 
 {#each feedbacks as feedback (feedback.id)}

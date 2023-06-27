@@ -1,7 +1,7 @@
-<script>
-    export let style = 'primary'
-    export let type = 'button'
-    export let disabled = false
+<script lang="ts">
+    export let style: string = 'primary'
+    export let type: any = 'button'
+    export let disabled: boolean = false
 </script>
 
 <button {type} {disabled} class={style}>

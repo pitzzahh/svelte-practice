@@ -1,7 +1,7 @@
-<script>
-  let selected = 5
+<script lang="ts">
+  let selected: number = 5
 
-  const onChange = (event) => selected = parseInt(event.target.value)
+  const onChange = (event: any) => selected = parseInt(event.target.value)
 
 </script>
 

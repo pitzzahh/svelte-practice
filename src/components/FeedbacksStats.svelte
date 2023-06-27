@@ -1,6 +1,6 @@
-<script>
-    export let ratingCount;
-    export let averageRating;
+<script lang="ts">
+    export let ratingCount: number
+    export let averageRating: number
 </script>
 
 <div class="feedback-stats">

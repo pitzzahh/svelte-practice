@@ -16,8 +16,7 @@
   });
 
   const inputObserver = () => {
-    console.log(inputLength);
-    if (inputLength < minInput) {
+    if (inputLength <= minInput) {
       errMsg = `Text must be at least ${minInput} characters`;
       btnDisabled = true;
     } else {

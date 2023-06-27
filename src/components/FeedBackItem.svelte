@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from "svelte"
   import Card from "./Card.svelte"
-  export let item
+  export let item: any
 
   const dispatch = createEventDispatcher()
 
