@@ -1,19 +1,28 @@
-<script>
-  import Card from './Card.svelte'
-  import Button from './Button.svelte'
+<script lang="ts">
+  import { afterUpdate } from "svelte";
+  import Card from "./Card.svelte";
+  import Button from "./Button.svelte";
+  import RatingSelect from "./RatingSelect.svelte";
 
-  let text = ''
-  let btnDisabled = true
-  const minInput = 10
-  let errMsg;
+  let text: string = "";
+  let rating: number = 10;
+  let btnDisabled: boolean = true;
+  let errMsg: string;
+  let inputLength: number = 0; 
+  const minInput: number = 10;
+
+  afterUpdate(() => {
+    inputLength = text.trim().length;
+  });
 
   const inputObserver = () => {
-    if (text.trim().length < minInput) {
-      errMsg = `Text must be at least ${minInput} characters`
-      btnDisabled = true
+    console.log(inputLength);
+    if (inputLength < minInput) {
+      errMsg = `Text must be at least ${minInput} characters`;
+      btnDisabled = true;
     } else {
-      errMsg = null
-      btnDisabled = false
+      errMsg = null;
+      btnDisabled = false;
     }
   };
 </script>
@@ -23,14 +32,16 @@
     <h2>How would you rate our service?</h2>
   </header>
 
+  <RatingSelect />
+
   <form action="">
     <!-- rating selection -->
     <div class="input-group">
       <input
         type="text"
-        on:input={inputObserver}
         bind:value={text}
-        placeholder="Tell us something"
+        on:input={inputObserver}
+        placeholder="Tell us something about your experience..."
       />
       <Button type="submit" disabled={btnDisabled}>Send</Button>
     </div>
@@ -64,7 +75,7 @@
   input {
     flex-grow: 2;
     border: none;
-    font-size: 16px;
+    font-size: 14px;
     margin: auto 2px;
   }
 
