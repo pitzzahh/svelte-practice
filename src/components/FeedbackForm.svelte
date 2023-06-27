@@ -1,27 +1,42 @@
 <script lang="ts">
+  import { v4 as uuidv4 } from "uuid";
+  import { createEventDispatcher } from "svelte";
   import { afterUpdate } from "svelte";
   import Card from "./Card.svelte";
-  import Button from "./Button.svelte";
+  import RatingButton from "./RatingButton.svelte";
   import RatingSelect from "./RatingSelect.svelte";
 
-  let text: string = "";
-  let rating: number = 10;
-  let btnDisabled: boolean = true;
-  let errMsg: string;
-  let inputLength: number = 0; 
-  const minInput: number = 10;
+  let text: string = ""
+  let rating: number = 0
+  let btnDisabled: boolean = true
+  let errMsg: string
+  let inputLength: number = 0
+  const minInput: number = 10
+
+  const dispatch = createEventDispatcher();
 
   afterUpdate(() => {
     inputLength = text.trim().length;
   });
 
   const inputObserver = () => {
-    if (inputLength <= minInput) {
-      errMsg = `Text must be at least ${minInput} characters`;
-      btnDisabled = true;
+    if (inputLength <= minInput - 1) {
+      errMsg =
+        inputLength == 0
+          ? null
+          : `Text must be at least ${minInput} characters`;
+      btnDisabled = true
     } else {
       errMsg = null;
-      btnDisabled = false;
+      btnDisabled = false
+    }
+  };
+
+  const handleSelect = (e: CustomEvent<any>) => (rating = e.detail);
+  const handleSubmit = () => {
+    if (text.trim().length >= minInput - 1) {
+      dispatch("add-feedback", { id: uuidv4(), text, rating: +rating })
+      text = ''
     }
   };
 </script>
@@ -30,11 +45,8 @@
   <header>
     <h2>How would you rate our service?</h2>
   </header>
-
-  <RatingSelect />
-
-  <form action="">
-    <!-- rating selection -->
+  <form on:submit|preventDefault={handleSubmit}>
+    <RatingSelect on:select-rating={handleSelect} />
     <div class="input-group">
       <input
         type="text"
@@ -42,7 +54,7 @@
         on:input={inputObserver}
         placeholder="Tell us something about your experience..."
       />
-      <Button type="submit" disabled={btnDisabled}>Send</Button>
+      <RatingButton type="submit" disabled={btnDisabled}>Send</RatingButton>
     </div>
     {#if errMsg}
       <div class="message">{errMsg}</div>

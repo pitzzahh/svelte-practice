@@ -1,30 +1,16 @@
 <script lang="ts">
-  import FeedbackForm from "./components/FeedbackForm.svelte";
-  import FeedbacksStats from "./components/FeedbacksStats.svelte";
-  import FeedbackList from "./components/FeedbackList.svelte";
+  import { createEventDispatcher } from "svelte"
+  import FeedbackForm from "./components/FeedbackForm.svelte"
+  import FeedbacksStats from "./components/FeedbacksStats.svelte"
+  import FeedbackList from "./components/FeedbackList.svelte"
 
-  let feedbacks: Array<any> = [
-    {
-      id: 1,
-      rating: 10,
-      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel nisl",
-    },
-    {
-      id: 2,
-      rating: 8,
-      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel nisl",
-    },
-    {
-      id: 3,
-      rating: 6,
-      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel nisl",
-    },
-  ];
+  const dispatch = createEventDispatcher()
 
-  const deleteFeedback = (e: any) => {
-    const itemId = e.detail;
-    feedbacks = feedbacks.filter((item) => item.id !== itemId);
-  };
+  let feedbacks: Array<any> = []
+
+  const addFeedback = (e: CustomEvent<any>) => (feedbacks = [...feedbacks, e.detail])
+
+  const deleteFeedback = (e: CustomEvent<any>) => (feedbacks = feedbacks.filter((item) => item.id !== e.detail))
 
   $: ratingCount = feedbacks.length;
   $: averageRating =
@@ -34,7 +20,8 @@
 </script>
 
 <main class="container">
-  <FeedbackForm />
+  <h1 style="text-align: center; color: #e8e8e8;">Feedback Form</h1>
+  <FeedbackForm on:add-feedback={addFeedback} />
   <FeedbacksStats {ratingCount} {averageRating} />
   <FeedbackList {feedbacks} on:delete-feedback={deleteFeedback} />
 </main>

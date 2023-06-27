@@ -1,7 +1,13 @@
 <script lang="ts">
-  let selected: number = 5
+  import {createEventDispatcher} from 'svelte'
 
-  const onChange = (event: any) => selected = parseInt(event.target.value)
+  let selected: number = 5 // default selected rating
+
+  const dispatch = createEventDispatcher()
+
+  const onChange = (e: any) => {
+    dispatch('select-rating', parseInt(e.target.value))
+  }
 
 </script>
 
