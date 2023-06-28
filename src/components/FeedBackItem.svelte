@@ -5,7 +5,7 @@
 
 
   const deleteFeedback = (itemId: number) => {
-    FeedbackStore.update((value) => value.filter((item) => item.id !== itemId))
+    FeedbackStore.update((value: any[]) => value.filter((item: { id: number; }) => item.id !== itemId))
   };
 </script>
 
@@ -14,9 +14,9 @@
     {item.rating}
   </div>
 
-  <button type="button" title="Remove Item Button" on:click={() => deleteFeedback(item.id)}>
+  <button  class="close" type="button" title="Remove Item Button" on:click={() => deleteFeedback(item.id)}>
     <svg
-      class="close"
+     
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 16 16"
       width="20"

@@ -1,13 +1,13 @@
 <script lang="ts">
-  import { FeedbackStore } from "../stores";
-  import { v4 as uuidv4 } from "uuid";
-  import { afterUpdate } from "svelte";
-  import Card from "./Card.svelte";
-  import RatingButton from "./RatingButton.svelte";
-  import RatingSelect from "./RatingSelect.svelte";
+  import { FeedbackStore } from '../stores'
+  import { v4 as uuidv4 } from 'uuid'
+  import { afterUpdate } from 'svelte'
+  import Card from './Card.svelte'
+  import RatingButton from './RatingButton.svelte'
+  import RatingSelect from './RatingSelect.svelte'
 
   let text: string = ""
-  let rating: number = 0
+  let rating: number = 5
   let btnDisabled: boolean = true
   let errMsg: string
   let inputLength: number = 0
@@ -33,7 +33,7 @@
   const handleSelect = (e: CustomEvent<any>) => (rating = e.detail);
   const handleSubmit = () => {
     if (text.trim().length >= minInput - 1) {
-      FeedbackStore.update((currentFeedbacks) => [...currentFeedbacks, { id: uuidv4(), text, rating: +rating }])
+      FeedbackStore.update((currentFeedbacks: any) => [...currentFeedbacks, { id: uuidv4(), text, rating: +rating }])
       text = ''
       btnDisabled = true
     }
